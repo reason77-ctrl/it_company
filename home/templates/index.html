@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<body>
+    <div class="container-xxl bg-white p-0">
+
+
+        <!-- Navbar & Hero Start -->
+        <div class="container-xxl position-relative p-0">
+            <div class="container-xxl bg-primary hero-header">
+                <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for slide in slider %}
+                        <div class="carousel-item {% if forloop.first %} active {% endif %}" data-bs-interval="3000">
+                            <img src="{{slide.img.url}}" class="d-block w-100" alt="..." style="height: 40rem; object-fit:cover;">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <a class="carousel-control-prev" role="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                    
+                    <a class="carousel-control-next" role="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- Navbar & Hero End -->
+
+
+        <!-- About Start -->
+        <div class="container-xxl py-6">
+            <div class="container">
+                <div class="row g-5 align-items-center">
+                    <div class="col-lg-6 wow zoomIn" data-wow-delay="0.1s">
+                        <img class="img-fluid" src="{% static 'img/about.png' %}">
+                    </div>
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="d-inline-block border rounded-pill text-primary px-4 mb-3" id="About">About Us</div>
+                        {% for about in abouts %}
+                        <h2 class="mb-4">{{about.title}}</h2>
+                        <p class="mb-4">{{about.title_description|safe}}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+
+        <!-- Service Start -->
+        <div class="container-xxl py-6">
+            <div class="container">
+                <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                    <div class="d-inline-block border rounded-pill text-primary px-4 mb-3" id="Service">Our Services</div>
+                    <h2 class="mb-5">We Provide Solutions On Your Business</h2>
+                </div>
+                <div class="row g-4">
+                    {% for service in services %}
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="card" style="width: 25rem;height:100%;">
+                            <img src="{{service.img.url}}" class="card-img-top" alt="..." style="height:100%;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{service.title}}</h5>
+                                <p class="card-text">{{service.content}}</p>
+                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Apply</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Service End -->
+
+        <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h2 class="mb-5">TECHNOLOGIES WE USE</h2>
+        </div>
+        
+        <div class="container-xxl bg-primary my-3 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container px-lg-5">
+                <div class="row align-items-center" style="height: 250px;">
+                    <div class="owl-carousel client-carousel">
+                        {% for items in techs %}
+                        <a href="#"><img class="img-fluid" src="{{items.logo_img.url}}" alt=""></a>
+                        {%endfor%}
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Contact Start -->
+        <div class="container-xxl py-6">
+           
+            <div class="container">
+                {% for message in messages %}
+                <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+                    <strong>Message: </strong> {{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                <div class="mx-auto text-center wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                    <div class="d-inline-block border rounded-pill text-primary px-4 mb-3" id="Contact">Contact Us</div>
+                    <h2 class="mb-5">If You Have Any Query, Please Feel Free Contact Us</h2>
+                </div>
+                <div class="row justify-content-center">
+                    
+
+                    <div class="col-lg-7 wow fadeInUp" data-wow-delay="0.3s">
+                        <form action="/contact" method="POST">
+                            {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input name="full_name" required type="text" class="form-control" id="full_name" placeholder="Your Name" />
+                                        <label for="full_name">Full Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input name="email" required type="email" class="form-control" id="email" placeholder="Your Email" />
+                                        <label for="email">Your Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input name="subject" required type="text" class="form-control" id="subject" placeholder="Subject" />
+                                        <label for="subject">Subject</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea name="message" required class="form-control" placeholder="Leave a message here" id="message" style="height: 150px"></textarea>
+                                        <label for="message">Message</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contact End -->
+    
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="row g-3" action="{% url 'home:connect_form' %}" method="POST">
+                                {% csrf_token %}
+                      
+                                <div class="col-md-6">
+                                    <label for="inputFirstName">First Name:</label>
+                                    <input name="first_name" type="text" class="form-control" id="inputFirstName" placeholder="First Name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputLastName">Last Name:</label>
+                                    <input name="last_name" type="text" class="form-control" id="inputLastName" placeholder="Last Name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputPhone">Phone:</label>
+                                    <input name="phone" type="number" class="form-control" id="inputPhone" placeholder="Phone" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputEmail">Email:</label>
+                                    <input name="email" type="text" class="form-control" id="inputEmail" placeholder="Email" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputAddress">Address:</label>
+                                    <input name="address" type="text" class="form-control" id="inputAddress" placeholder="Address" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputMessage">Message:</label>
+                                    <textarea name="message" type="text" class="form-control" id="inputMessage" placeholder="Message" required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="checkbox" value="check" id="gridCheck">
+                                      <label class="form-check-label" for="gridCheck">
+                                        Check
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="check2" id="gridCheck">
+                                        <label class="form-check-label" for="gridCheck">
+                                          Check2
+                                        </label>
+                                    </div>
+                                    <input name="services" type="hidden" class="form-control" id="txtvalues">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Understood</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+    </div>    
+        {% endblock %}
